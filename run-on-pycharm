@@ -1,0 +1,39 @@
+import random
+
+def get_random_word():
+    words = ["python", "java", "csharp", "javascript", "ruby", "go", "swift", "typescript", "scala", "kotlin"]
+    return random.choice(words)
+
+def play_game():
+    word = get_random_word()
+    word_letters = set(word)
+    attempts = 7
+    guessed_letters = set()
+
+    while attempts > 0 and word_letters:
+        print("".join(["_" if char not in guessed_letters else char for char in word]))
+        print("Guessed letters: ", ", ".join(sorted(guessed_letters)))
+        print("You have", attempts, "attempts left")
+        guess = input("Please enter a letter: ").lower()
+
+        if len(guess) != 1 or not guess.isalpha():
+            print("Invalid input. Please enter a letter.")
+            continue
+
+        if guess in guessed_letters:
+            print("You have already guessed that letter.")
+            continue
+
+        guessed_letters.add(guess)
+
+        if guess in word_letters:
+            word_letters.remove(guess)
+        else:
+            attempts -= 1
+
+    if word_letters:
+        print("You lost! The word was: " + word)
+    else:
+        print("You won! The word was: " + word)
+
+play_game()
